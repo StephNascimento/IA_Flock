@@ -9,6 +9,8 @@ public class FlockingManager : MonoBehaviour
     public int numFish = 20;
     public GameObject[] allFish;
     public Vector3 swinLimits = new Vector3(5, 5, 5);
+    //Posição de destino
+    public Vector3 goalPos;
 
     //COnfigurações para escolher a velocidade mínima e máxima entre os peixes
     [Header("Configurações do Cardume")]
@@ -37,6 +39,20 @@ public class FlockingManager : MonoBehaviour
             allFish[i] = (GameObject)Instantiate(fishPrefab, pos, Quaternion.identity);
             //Setando o código Flock no manager
             allFish[i].GetComponent<Flock>().myManager = this;
+        }
+        //O destino é o mesmo que estiver o código
+        goalPos = this.transform.position;
+    }
+
+    private void Update()
+    {
+        goalPos = this.transform.position;
+
+        //Mudando a posição do goalPos aleatoriamente dentro do limite aplicado
+        if (Random.Range(0, 100) < 10)
+        {
+            goalPos = this.transform.position + new Vector3(Random.Range(-swinLimits.x,swinLimits.x), 
+                Random.Range(-swinLimits.y, swinLimits.y), Random.Range(-swinLimits.z, swinLimits.z));
         }
     }
 }
